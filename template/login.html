@@ -1,0 +1,185 @@
+<html lang="en">
+{% load static %}
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Gatepass Portal</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #6366f1;
+      --secondary: #a855f7;
+      --bg-image: url("{% static 'img/gatepass_hero.png' %}");
+    }
+
+    body {
+      background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), var(--bg-image);
+      background-size: cover;
+      background-position: center;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Inter', sans-serif;
+      color: #fff;
+    }
+
+    .login-wrapper {
+      width: 100%;
+      max-width: 450px;
+      padding: 20px;
+    }
+
+    .login-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 45px 35px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      animation: slideUp 0.6s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .brand-title {
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(to right, #fff, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .form-label {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #94a3b8;
+      margin-bottom: 8px;
+    }
+
+    .form-control {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+      color: #fff;
+    }
+
+    .btn-login {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border: none;
+      color: #fff;
+      font-weight: 600;
+      padding: 12px;
+      border-radius: 12px;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+      filter: brightness(1.1);
+    }
+
+    .back-home {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s ease;
+    }
+
+    .back-home:hover {
+      color: #fff;
+    }
+
+    .error-msg {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-wrapper">
+    <div class="text-center mb-4">
+      <a href="/" class="back-home"><i class="bi bi-arrow-left me-1"></i> Back to website</a>
+    </div>
+
+    <div class="login-card">
+      <div class="text-center mb-4">
+        <h2 class="brand-title h1 mb-1">Welcome Back</h2>
+        <p class="text-muted">Enter your credentials to access the portal</p>
+      </div>
+
+      {% if error %}
+      <div class="error-msg text-center">
+        <i class="bi bi-exclamation-circle me-2"></i> {{ error }}
+      </div>
+      {% endif %}
+
+      <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label class="form-label">Username</label>
+          <div class="input-group">
+            <span class="input-group-text bg-transparent border-end-0 border-white-10 text-muted" style="border: 1px solid rgba(255,255,255,0.1); border-radius: 12px 0 0 12px;">
+              <i class="bi bi-person"></i>
+            </span>
+            <input type="text" class="form-control border-start-0" name="username" placeholder="Username" required style="border-radius: 0 12px 12px 0;">
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label">Password</label>
+          <div class="input-group">
+            <span class="input-group-text bg-transparent border-end-0 border-white-10 text-muted" style="border: 1px solid rgba(255,255,255,0.1); border-radius: 12px 0 0 12px;">
+              <i class="bi bi-lock"></i>
+            </span>
+            <input type="password" class="form-control border-start-0" name="password" placeholder="••••••••" required style="border-radius: 0 12px 12px 0;">
+          </div>
+        </div>
+
+        <button class="btn btn-login w-100" type="submit">Sign In</button>
+
+        <div class="text-center mt-4">
+          <p class="text-muted small">
+            New student? <a href="student_register" class="text-white text-decoration-underline">Create an account</a>
+          </p>
+        </div>
+      </form>
+    </div>
+    
+    <div class="text-center mt-4 text-muted small">
+      © 2026 Secure Gatepass System
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

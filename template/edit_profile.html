@@ -1,0 +1,105 @@
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/png">
+    <title>Edit Profile - Gatepass</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="{% static 'css/custom_style.css' %}">
+
+    <style>
+        .page-container {
+            padding-top: 120px;
+            padding-bottom: 50px;
+        }
+        .form-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+    <!--================ Header =================-->
+    <header class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/student_home">
+                <img src="{% static 'img/logo.png' %}" alt="Logo" class="mr-2">
+                <span class="font-weight-bold h4 mb-0 text-white">GATEPASS</span>
+            </a>
+            <div class="ml-auto">
+                <a href="{% url 'view_profile' %}" class="btn btn-outline-light btn-sm px-4">Back to Profile</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container page-container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 animate-fade-in">
+                <div class="glass-card">
+                    <div class="text-center mb-5">
+                        <div class="feature-icon mx-auto"><i class="fa fa-user-edit"></i></div>
+                        <h2 class="text-gradient font-weight-bold">Update Account</h2>
+                        <p class="text-muted">Modify your personal information and profile picture.</p>
+                    </div>
+
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="form-group mb-4">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" name="name" class="form-control form-glass" value="{{ student.name }}" required>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label class="form-label">Contact Number</label>
+                            <input type="text" name="phone" class="form-control form-glass" value="{{ student.phone }}" required maxlength="10">
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label class="form-label">Course / Department</label>
+                            <input type="text" name="course_name" class="form-control form-glass" value="{{ student.course_name }}" required>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label class="form-label">Residential Address</label>
+                            <textarea name="address" class="form-control form-glass" rows="3" required>{{ student.address }}</textarea>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label class="form-label">Change Profile Picture</label>
+                            <div class="custom-file">
+                                <input type="file" name="image" class="form-control form-glass" accept="image/*">
+                            </div>
+                            <small class="text-muted mt-2 d-block">Leave empty to keep your current photo.</small>
+                        </div>
+
+                        <div class="mt-5">
+                            <button type="submit" class="btn btn-premium btn-block py-3">
+                                Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>

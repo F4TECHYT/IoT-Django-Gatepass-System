@@ -1,0 +1,198 @@
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/png">
+    <title>Assign NFC Tag - Admin</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="{% static 'css/custom_style.css' %}">
+
+    <style>
+        .page-container {
+            padding-top: 120px;
+            padding-bottom: 50px;
+        }
+        .clickable-tag {
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .clickable-tag:hover {
+            background-color: rgba(255,255,255,0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!--================ Header =================-->
+    <header class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/admin_home">
+                <img src="{% static 'img/logo.png' %}" alt="Logo" class="mr-2">
+                <span class="font-weight-bold h4 mb-0 text-white">ADMIN PANEL</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="admin_home">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/view_requests">Requests</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/admin_view_gate_pass_history">Tracking</a></li>
+                    <li class="nav-item submenu dropdown active">
+                        <ul class="dropdown-menu bg-dark border-0 shadow mt-2">
+                            <li><a class="dropdown-item text-white py-2" href="/admin_view_students">Students</a></li>
+                            <li><a class="dropdown-item text-white py-2" href="/admin_view_staff">Staff</a></li>
+                            <li><a class="dropdown-item text-white py-2 bg-primary" href="/view_nfc_tags">NFC Tags</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item ml-lg-3">
+                        <a class="btn btn-premium btn-sm" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="container page-container">
+        
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <div class="glass-card animate-fade-in p-4">
+                    <h3 class="text-gradient font-weight-bold mb-3">Assign NFC Tag to Student</h3>
+                    <p class="text-muted mb-4">Map physical hardware cards to registered students.</p>
+                    
+                    {% if message %}
+                        {% if message.0 == 'success' %}
+                            <div class="alert alert-success">{{ message.1 }}</div>
+                        {% else %}
+                            <div class="alert alert-danger">{{ message.1 }}</div>
+                        {% endif %}
+                    {% endif %}
+
+                    <form method="POST" action="{% url 'assign_nfc_tag' %}" onsubmit="return finalizeSelection()">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="typeStudent" name="user_type" class="custom-control-input" value="student" checked onchange="toggleUserType()">
+                                <label class="custom-control-label text-white font-weight-bold" style="cursor:pointer;" for="typeStudent">Assign to Student</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline ml-3">
+                                <input type="radio" id="typeStaff" name="user_type" class="custom-control-input" value="staff" onchange="toggleUserType()">
+                                <label class="custom-control-label text-white font-weight-bold" style="cursor:pointer;" for="typeStaff">Assign to Staff</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-4 animate-fade-in" id="student_select_box">
+                            <label class="text-white font-weight-bold"><i class="fa fa-graduation-cap mr-2 text-primary"></i>Select Student</label>
+                            <select id="stud_id_student" class="form-control bg-dark text-white border-secondary" required>
+                                <option value="">-- Choose Student --</option>
+                                {% for s in students %}
+                                    <option value="{{ s.0 }}">ID: {{ s.0 }} - {{ s.1 }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group mb-4 animate-fade-in" id="staff_select_box" style="display:none;">
+                            <label class="text-white font-weight-bold"><i class="fa fa-briefcase mr-2 text-primary"></i>Select Staff</label>
+                            <select id="stud_id_staff" class="form-control bg-dark text-white border-secondary">
+                                <option value="">-- Choose Staff --</option>
+                                {% for staff in staffs %}
+                                    <option value="STAFF-{{ staff.0 }}">ID: {{ staff.0 }} - {{ staff.1 }} ({{ staff.2 }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <input type="hidden" name="stud_id" id="final_stud_id">
+
+                        <div class="form-group mb-4">
+                            <label class="text-white font-weight-bold">Hardware Tag UID</label>
+                            <input type="text" name="tag_uid" id="tag_uid_input" class="form-control bg-dark text-white border-secondary" value="{{ existing_tag|default:'' }}" placeholder="e.g. 24 76 75 06" required>
+                            <small class="form-text text-muted mt-2">Tap a brand new card on your scanner—it will automatically show up on the right panel so you can easily click it!</small>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-block font-weight-bold py-2 mt-4 mt-2">Confirm Link</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-5 offset-lg-1">
+                <div class="glass-card animate-fade-in p-0 overflow-hidden border-primary">
+                    <div class="bg-dark p-3 border-bottom border-secondary d-flex justify-content-between align-items-center">
+                        <h5 class="text-white mb-0">
+                            <i class="fa fa-wifi text-primary mr-2"></i> Recent New Scans
+                        </h5>
+                        <button class="btn btn-sm btn-outline-primary" style="border-radius: 50px;" onclick="location.reload();">
+                            <i class="fa fa-refresh mr-1"></i> Refresh
+                        </button>
+                    </div>
+                    
+                    <div class="table-responsive" style="max-height: 350px; overflow-y: auto;">
+                        <table class="table table-glass mb-0">
+                            <tbody>
+                                {% for t in unassigned_tags %}
+                                <tr class="clickable-tag" onclick="document.getElementById('tag_uid_input').value='{{ t.0 }}';">
+                                    <td class="text-white font-weight-bold align-middle">
+                                        <i class="fa fa-microchip text-primary mr-2"></i> {{ t.0 }}
+                                    </td>
+                                    <td class="text-muted small text-right align-middle">
+                                        <span class="d-block mb-1">New Unassigned Tapped Card</span>
+                                        <span class="badge badge-primary">Click to Autofill</span>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="2" class="text-center py-5 text-muted">
+                                        <i class="fa fa-search fa-2x mb-3 text-secondary d-block"></i>
+                                        No unassigned tags recently tapped.<br>
+                                        <small class="d-block mt-2">Tap an unknown card on the hardware scanner, then refresh this page. It will automatically be captured here!</small>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script>
+        function toggleUserType() {
+            var isStudent = document.getElementById('typeStudent').checked;
+            document.getElementById('student_select_box').style.display = isStudent ? 'block' : 'none';
+            document.getElementById('staff_select_box').style.display = isStudent ? 'none' : 'block';
+            
+            document.getElementById('stud_id_student').required = isStudent;
+            document.getElementById('stud_id_staff').required = !isStudent;
+        }
+
+        function finalizeSelection() {
+            var isStudent = document.getElementById('typeStudent').checked;
+            var finalId = isStudent ? document.getElementById('stud_id_student').value : document.getElementById('stud_id_staff').value;
+            
+            if (!finalId) {
+                alert("Please choose a target user to assign the tag!");
+                return false;
+            }
+            document.getElementById('final_stud_id').value = finalId;
+            return true;
+        }
+
+        toggleUserType();
+    </script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/png">
+    <title>Staff Registration - Gatepass</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="{% static 'css/custom_style.css' %}">
+
+    <style>
+        body {
+            background: linear-gradient(rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.95)), url("{% static 'img/gatepass_hero.png' %}");
+            background-size: cover;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        .reg-container {
+            padding: 120px 0 60px 0;
+        }
+        .form-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        select.form-glass option {
+            background: #1e293b;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!--================ Header =================-->
+    <header class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/admin_home">
+                <img src="{% static 'img/logo.png' %}" alt="Logo" class="mr-2">
+                <span class="font-weight-bold h4 mb-0 text-white">ADMIN PANEL</span>
+            </a>
+            <div class="ml-auto">
+                <a href="/admin_home" class="btn btn-outline-light btn-sm px-4">Dashboard</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container reg-container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 animate-fade-in">
+                <div class="glass-card" style="border-top: 4px solid var(--secondary);">
+                    <div class="text-center mb-5">
+                        <h2 class="text-gradient font-weight-bold display-4">Staff Onboarding</h2>
+                        <p class="text-muted">Register new security, teaching, or maintenance personnel.</p>
+                    </div>
+
+                    <form action="staff_register" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="form-group mb-4">
+                            <label class="form-label">Account Type</label>
+                            <select name="type" class="form-control form-glass" required>
+                                <option value="" disabled selected>Select Category</option>
+                                <option value="Teaching">Teaching Staff</option>
+                                <option value="Non-Teaching Security">Non-Teaching: Security</option>
+                                <option value="Non-Teaching Cleaning">Non-Teaching: Cleaning</option>
+                                <option value="Non-Teaching Maintenance">Non-Teaching: Maintenance</option>
+                            </select>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" name="name" class="form-control form-glass" placeholder="Employee Name" required>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label">Phone Number</label>
+                                <input type="text" name="phone" class="form-control form-glass" maxlength="10" placeholder="10 Digit Number" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label">Qualification / Designation</label>
+                                <input type="text" name="qualification" class="form-control form-glass" placeholder="e.g. B.Ed / Security Chief" required>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label">Years of Experience</label>
+                                <input type="number" name="experience" class="form-control form-glass" placeholder="0" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label class="form-label">Identity Photograph</label>
+                            <input type="file" name="image" class="form-control form-glass" accept="image/*" required>
+                        </div>
+
+                        <hr style="border-color: rgba(255,255,255,0.05);" class="my-5">
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label">Login Username</label>
+                                <input type="text" name="username" class="form-control form-glass" placeholder="staff_id" required>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label">Portal Password</label>
+                                <input type="password" name="password" class="form-control form-glass" placeholder="••••••••" required>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-5">
+                            <button type="submit" class="btn btn-premium px-5 py-3 btn-block" style="background: linear-gradient(90deg, var(--secondary), var(--accent));">
+                                Register Staff Member
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>

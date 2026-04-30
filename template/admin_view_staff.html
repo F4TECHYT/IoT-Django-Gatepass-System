@@ -1,0 +1,126 @@
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/png">
+    <title>Staff Records - Admin</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="{% static 'css/custom_style.css' %}">
+
+    <style>
+        .page-container {
+            padding-top: 120px;
+            padding-bottom: 50px;
+        }
+        .staff-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+    <!--================ Header =================-->
+    <header class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/admin_home">
+                <img src="{% static 'img/logo.png' %}" alt="Logo" class="mr-2">
+                <span class="font-weight-bold h4 mb-0 text-white">ADMIN PANEL</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="admin_home">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="view_requests">Requests</a></li>
+                    <li class="nav-item"><a class="nav-link" href="admin_view_gate_pass_history">Tracking</a></li>
+                    <li class="nav-item submenu dropdown active">
+                        <ul class="dropdown-menu bg-dark border-0 shadow mt-2">
+                            <li><a class="dropdown-item text-white py-2" href="admin_view_students">Students</a></li>
+                            <li><a class="dropdown-item text-white py-2 bg-primary" href="admin_view_staff">Staff</a></li>
+                            <li><a class="dropdown-item text-white py-2" href="view_nfc_tags">NFC Tags</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item ml-lg-3">
+                        <a class="btn btn-premium btn-sm" href="logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="container page-container">
+        <div class="row mb-4 animate-fade-in">
+            <div class="col-12">
+                <h2 class="text-gradient font-weight-bold">Staff Directory</h2>
+                <p class="text-muted">Manage and monitor your campus security and administrative personnel.</p>
+            </div>
+        </div>
+
+        <div class="glass-card animate-fade-in" style="padding: 0; overflow: hidden;">
+            <div class="table-responsive">
+                <table class="table table-glass mb-0">
+                    <thead>
+                        <tr>
+                            <th>Photo</th>
+                            <th>Name & Designation</th>
+                            <th>Contact Details</th>
+                            <th>Role & Experience</th>
+                            <th>Username</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in staff_list %}
+                        <tr>
+                            <td>
+                                {% if s.9 %}
+                                    <img src="/media/{{ s.9 }}" class="staff-img" alt="Staff">
+                                {% else %}
+                                    <div class="staff-img d-flex align-items-center justify-content-center bg-dark">
+                                        <i class="fa fa-user text-muted"></i>
+                                    </div>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="text-white font-weight-bold">{{ s.1 }}</div>
+                                <div class="small text-primary">{{ s.8|default:"Staff" }}</div>
+                            </td>
+                            <td>
+                                <div class="small text-white"><i class="fa fa-phone mr-1 text-muted"></i> {{ s.3 }}</div>
+                                <div class="small text-muted"><i class="fa fa-envelope mr-1 text-muted"></i> {{ s.4 }}</div>
+                            </td>
+                            <td>
+                                <span class="badge badge-outline-primary px-2 py-1 mb-1">{{ s.2 }}</span>
+                                <div class="small text-muted">{{ s.7 }} exp.</div>
+                            </td>
+                            <td class="text-muted small">{{ s.5 }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center py-5 text-muted">No staff members enrolled.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>

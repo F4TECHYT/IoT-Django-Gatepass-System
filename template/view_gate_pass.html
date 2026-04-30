@@ -1,0 +1,127 @@
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/png">
+    <title>Track Movement - Gatepass</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="{% static 'css/custom_style.css' %}">
+
+    <style>
+        .page-container {
+            padding-top: 120px;
+            padding-bottom: 50px;
+        }
+        .movement-badge {
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .status-outside { background: rgba(244, 63, 94, 0.2); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.3); }
+        .status-returned { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+        .status-not-out { background: rgba(148, 163, 184, 0.2); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.3); }
+
+        .user-img-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+    <!--================ Header =================-->
+    <header class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="{% static 'img/logo.png' %}" alt="Logo" class="mr-2">
+                <span class="font-weight-bold h4 mb-0 text-white">
+                    {% if request.session.admin %}ADMIN PORTAL{% else %}STAFF PORTAL{% endif %}
+                </span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto align-items-center">
+                    {% if request.session.admin %}
+                    <li class="nav-item"><a class="nav-link" href="admin_home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="view_requests">Requests</a></li>
+                    {% elif request.session.staff_id %}
+                    <li class="nav-item"><a class="nav-link" href="staff_home">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="staff_view_requests">View Passes</a></li>
+                    {% endif %}
+                    {% if request.session.staff_id %}
+                    <li class="nav-item active"><a class="nav-link" href="view_gate_pass_history">History</a></li>
+                    {% endif %}
+                    <li class="nav-item ml-lg-3">
+                        <a class="btn btn-premium btn-sm" href="logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="container page-container">
+        <div class="row mb-4 animate-fade-in">
+            <div class="col-md-8">
+                <h2 class="text-gradient font-weight-bold">Campus Movement Log</h2>
+                <p class="text-muted">Monitor departures and arrivals in real-time.</p>
+            </div>
+            <div class="col-md-4 text-md-right">
+                <div class="glass-card py-2 px-3 d-inline-block">
+                    <span class="text-white small mr-2"><i class="fa fa-circle text-success mr-1"></i> Live Session</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card animate-fade-in" style="padding: 0; overflow: hidden;">
+            <div class="table-responsive">
+                <table class="table table-glass mb-0">
+                    <thead>
+                       <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Date &amp; Time (IST)</th>
+        <th>Entry Type</th>
+    </tr>
+                    </thead>
+                    <tbody>
+                       {% for d in data %}
+    <tr>
+        <td>{{ d.id }}</td>
+        <td>{{ d.name }}</td>
+        <td>{{ d.time }}</td>
+        <td>
+            {% if d.entry_type == "OUT" %}
+                <span style="color: red; font-weight: bold;">OUT</span>
+            {% else %}
+                <span style="color: green; font-weight: bold;">IN</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>

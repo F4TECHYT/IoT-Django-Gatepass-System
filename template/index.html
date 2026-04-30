@@ -1,0 +1,178 @@
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/png">
+    <title>Gatepass Portaly - Secure Movement Management</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="{% static 'css/custom_style.css' %}">
+    
+    <style>
+        .hero-bg {
+            background-image: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url("{% static 'img/gatepass_hero.png' %}");
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!--================ Header =================-->
+    <header class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="{% static 'img/logo.png' %}" alt="Logo" class="mr-2">
+                <span class="font-weight-bold h4 mb-0 text-white">GATEPASS</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="login">Login Portal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="student_register">Student Registration</a>
+                    </li>
+                    <li class="nav-item ml-lg-3">
+                        <a class="btn btn-premium" href="login">Get Started</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!--================ Hero Section =================-->
+    <section class="hero-section hero-bg">
+        <div class="hero-overlay"></div>
+        <div class="container position-relative" style="z-index: 2;">
+            <div class="row align-items-center">
+                <div class="col-lg-7 animate-fade-in">
+                    <h1 class="display-3 font-weight-extrabold text-white mb-4">
+                        Modern Security for <br>
+                        <span class="text-primary">Campus Transit</span>
+                    </h1>
+                    <p class="lead text-muted mb-5 pr-lg-5">
+                        Streamline your gate pass requests, movement tracking, and campus security with our integrated management portal. Efficient, secure, and fully automated.
+                    </p>
+                    <div class="d-flex flex-wrap">
+                        <a href="login" class="btn btn-premium mr-3 mb-3">Portal Login</a>
+                        <a href="student_register" class="btn btn-outline-light px-5 py-3 mb-3" style="border-radius: 50px; font-weight: 600;">Register Now</a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-5 d-none d-lg-block">
+                    <div class="glass-card animate-fade-in" style="animation-delay: 0.2s;">
+                        <div class="text-center mb-4">
+                            <div class="feature-icon mx-auto">
+                                <i class="fa fa-lock"></i>
+                            </div>
+                            <h3>Secure Login</h3>
+                            <p class="text-muted">Access your personalized dashboard</p>
+                        </div>
+                        <form method="POST" action="login">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input type="text" name="username" class="form-control form-glass" placeholder="Username" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" class="form-control form-glass" placeholder="Password" required>
+                            </div>
+                            <button type="submit" class="btn btn-premium btn-block mt-4">Sign In</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--================ Features Section =================-->
+    <section class="py-5" style="background: #0f172a;">
+        <div class="container py-5">
+            <div class="row text-center mb-5">
+                <div class="col-12">
+                    <h2 class="display-4 font-weight-bold">Why Choose Gatepass?</h2>
+                    <p class="text-muted">Built with security and efficiency in mind.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="glass-card text-center h-100 p-4">
+                        <div class="feature-icon mx-auto"><i class="fa fa-paper-plane"></i></div>
+                        <h4>Easy Requests</h4>
+                        <p class="text-muted">Students can send gate pass requests in seconds from their own devices.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="glass-card text-center h-100 p-4">
+                        <div class="feature-icon mx-auto"><i class="fa fa-check-circle"></i></div>
+                        <h4>Instant Approval</h4>
+                        <p class="text-muted">Staff and Admins can review and approve requests through a unified interface.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="glass-card text-center h-100 p-4">
+                        <div class="feature-icon mx-auto"><i class="fa fa-map-marker"></i></div>
+                        <h4>Real-time Tracking</h4>
+                        <p class="text-muted">Monitor student movements across multiple campus gates in real-time.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--================ Footer =================-->
+    <footer class="py-5" style="background: #020617; border-top: 1px solid var(--card-border);">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h4 class="text-white mb-4">GATEPASS</h4>
+                    <p class="text-muted">The reliable Gatepass management system for modern institutions.</p>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5 class="text-white mb-3">Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="login" class="text-muted">Login</a></li>
+                        <li><a href="student_register" class="text-muted">Register</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5 class="text-white mb-3">Newsletter</h5>
+                    <div class="input-group">
+                        <input type="email" class="form-control form-glass" placeholder="Email">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button"><i class="fa fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4 text-center">
+                    <h5 class="text-white mb-3">Follow Us</h5>
+                    <div class="h3">
+                        <a href="#" class="text-white mr-3"><i class="fa fa-facebook"></i></a>
+                        <a href="#" class="text-white mr-3"><i class="fa fa-twitter"></i></a>
+                        <a href="#" class="text-white"><i class="fa fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr style="border-color: rgba(255,255,255,0.05);">
+            <div class="text-center text-muted small">
+                © 2026 Gatepass Portaly. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Optional JavaScript -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>

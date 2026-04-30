@@ -1,0 +1,114 @@
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/png">
+    <title>My Profile - Gatepass</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="{% static 'css/custom_style.css' %}">
+
+    <style>
+        .page-container {
+            padding-top: 120px;
+            padding-bottom: 50px;
+        }
+        .profile-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .profile-pic-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .info-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .info-value {
+            color: white;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <!--================ Header =================-->
+    <header class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/student_home">
+                <img src="{% static 'img/logo.png' %}" alt="Logo" class="mr-2">
+                <span class="font-weight-bold h4 mb-0 text-white">GATEPASS</span>
+            </a>
+            <div class="ml-auto">
+                <a href="student_home" class="btn btn-outline-light btn-sm px-4">Dashboard</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container page-container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7 animate-fade-in">
+                <div class="glass-card">
+                    <div class="profile-header">
+                        <div class="profile-pic-container">
+                            <img src="{{ student.image }}" class="profile-pic" alt="Profile">
+                        </div>
+                        <h2 class="text-gradient font-weight-bold">{{ student.name }}</h2>
+                        <p class="text-muted">{{ student.course_name }}</p>
+                    </div>
+
+                    <div class="profile-details mt-4">
+                        <div class="info-row">
+                            <span class="info-label">STUDENT ID</span>
+                            <span class="info-value">{{ student.stud_id }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">PHONE NUMBER</span>
+                            <span class="info-value">{{ student.phone }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">RESIDENTIAL ADDRESS</span>
+                            <span class="info-value text-right" style="max-width: 60%;">{{ student.address }}</span>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-5">
+                        <a href="{% url 'edit_profile' student.stud_id %}" class="btn btn-premium px-5 py-3">
+                            <i class="fa fa-edit mr-2"></i> Edit My Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>

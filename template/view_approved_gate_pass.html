@@ -1,0 +1,93 @@
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/png">
+    <title>Approved Passes - Gatepass</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="{% static 'css/custom_style.css' %}">
+
+    <style>
+        .page-container {
+            padding-top: 120px;
+            padding-bottom: 50px;
+        }
+        .pass-id-badge {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <!--================ Header =================-->
+    <header class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/student_home">
+                <img src="{% static 'img/logo.png' %}" alt="Logo" class="mr-2">
+                <span class="font-weight-bold h4 mb-0 text-white">GATEPASS</span>
+            </a>
+            <div class="ml-auto">
+                <a href="student_home" class="btn btn-outline-light btn-sm px-4">Dashboard</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container page-container">
+        <div class="row mb-4 animate-fade-in">
+            <div class="col-12">
+                <h2 class="text-gradient font-weight-bold">Approved Pass History</h2>
+                <p class="text-muted">A record of all your validated gate pass permissions.</p>
+            </div>
+        </div>
+
+        <div class="glass-card animate-fade-in" style="padding: 0; overflow: hidden;">
+            <div class="table-responsive">
+                <table class="table table-glass mb-0 text-center">
+                    <thead>
+                        <tr>
+                            <th>Pass ID</th>
+                            <th>Reason</th>
+                            <th>Out Time</th>
+                            <th>In Time</th>
+                            <th>Request Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in data %}
+                        <tr>
+                            <td><span class="pass-id-badge">#{{ row.request_detail_id }}</span></td>
+                            <td class="text-white">{{ row.reason }}</td>
+                            <td>{{ row.out_time }}</td>
+                            <td>{{ row.in_time }}</td>
+                            <td>{{ row.request_date }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center py-5 text-muted">No approved gate passes found in your history.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>

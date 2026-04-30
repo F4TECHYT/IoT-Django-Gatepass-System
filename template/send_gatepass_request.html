@@ -1,0 +1,90 @@
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/png">
+    <title>Request Gate Pass - Gatepass</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="{% static 'css/custom_style.css' %}">
+
+    <style>
+        .page-container {
+            padding-top: 120px;
+            padding-bottom: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <!--================ Header =================-->
+    <header class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/student_home">
+                <img src="{% static 'img/logo.png' %}" alt="Logo" class="mr-2">
+                <span class="font-weight-bold h4 mb-0 text-white">GATEPASS</span>
+            </a>
+            <div class="ml-auto">
+                <a href="student_home" class="btn btn-outline-light btn-sm px-4">Dashboard</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container page-container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 animate-fade-in">
+                <div class="glass-card">
+                    <div class="text-center mb-4">
+                        <div class="feature-icon mx-auto"><i class="fa fa-paper-plane"></i></div>
+                        <h2 class="text-gradient font-weight-bold">New Pass Request</h2>
+                        <p class="text-muted">Fill in the details for your leave permission.</p>
+                    </div>
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-group mb-4">
+                            <label class="text-muted small font-weight-bold">ROLL NUMBER</label>
+                            <input type="number" name="roll_no" class="form-control form-glass" value="{{ request.session.stud_id }}" readonly>
+                            <small class="text-muted">Auto-filled based on your session.</small>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label class="text-muted small font-weight-bold">REASON FOR LEAVE</label>
+                            <input type="text" name="reason" class="form-control form-glass" placeholder="e.g. Hospital visit, Home travel" required>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label class="text-muted small font-weight-bold">DEPARTURE TIME</label>
+                                <input type="time" name="out_time" class="form-control form-glass" required>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label class="text-muted small font-weight-bold">EXPECTED RETURN</label>
+                                <input type="time" name="in_time" class="form-control form-glass" required>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-premium btn-block py-3">
+                                Submit Request
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>

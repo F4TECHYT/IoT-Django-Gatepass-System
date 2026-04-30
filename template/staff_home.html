@@ -1,0 +1,139 @@
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/png">
+    <title>Staff Dashboard - Gatepass</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="{% static 'css/custom_style.css' %}">
+
+    <style>
+        .dashboard-container {
+            padding-top: 100px;
+            padding-bottom: 50px;
+        }
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .action-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            height: 100%;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+        .action-card:hover {
+            border-color: var(--secondary);
+            background: rgba(168, 85, 247, 0.1);
+            transform: scale(1.02);
+            text-decoration: none;
+        }
+        .action-card i {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+        .action-card h3 {
+            color: white;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!--================ Header =================-->
+    <header class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/staff_home">
+                <img src="{% static 'img/logo.png' %}" alt="Logo" class="mr-2">
+                <span class="font-weight-bold h4 mb-0 text-white">STAFF PORTAL</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto align-items-center">
+                    <li class="nav-item active"><a class="nav-link" href="staff_home">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="staff_view_requests">View Passes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="view_gate_pass_history">History</a></li>
+                    <li class="nav-item ml-lg-3">
+                        <a class="btn btn-premium btn-sm" href="logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!--================ Dashboard Body =================-->
+    <div class="container dashboard-container">
+        <div class="row mb-5 animate-fade-in">
+            <div class="col-12">
+                <h2 class="text-gradient display-4 font-weight-bold">Staff Console</h2>
+                <p class="text-muted">Manage gate entries and monitor student transit status.</p>
+            </div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-md-6 mb-4 animate-fade-in" style="animation-delay: 0.1s;">
+                <a href="staff_view_requests" class="action-card">
+                    <i class="fa fa-ticket"></i>
+                    <h3>View GatePass Requests</h3>
+                    <p class="text-muted">Review students seeking permission to exit the campus.</p>
+                </a>
+            </div>
+            <div class="col-md-6 mb-4 animate-fade-in" style="animation-delay: 0.2s;">
+                <a href="track_student_movement" class="action-card">
+                    <i class="fa fa-exchange"></i>
+                    <h3>Student In/Out Tracking</h3>
+                    <p class="text-muted">Log student entries and exits at the gate in real-time.</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="glass-card">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h4>Current System Status</h4>
+                            <p class="text-muted mb-0">The Gatepass system is operating normally. All security logs are being recorded.</p>
+                        </div>
+                        <div class="col-md-4 text-md-right mt-3 mt-md-0">
+                            <span class="badge badge-success px-3 py-2" style="border-radius: 50px;">System Online</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/png">
+    <title>Admin Dashboard - Gatepass</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="{% static 'css/custom_style.css' %}">
+
+    <style>
+        .dashboard-container {
+            padding-top: 100px;
+            padding-bottom: 50px;
+        }
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .quick-action-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            width: 100%;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        .quick-action-btn:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: var(--primary);
+            color: white;
+            text-decoration: none;
+        }
+        .quick-action-btn i {
+            font-size: 1.25rem;
+            margin-right: 15px;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+    <!--================ Header =================-->
+    {% if messages %}
+  {% for message in messages %}
+    <script>
+        alert("{{ message }}");
+    </script>
+  {% endfor %}
+{% endif %}
+    <header class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/admin_home">
+                <img src="{% static 'img/logo.png' %}" alt="Logo" class="mr-2">
+                <span class="font-weight-bold h4 mb-0 text-white">ADMIN PANEL</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="admin_home">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="view_requests">Requests</a></li>
+                    <li class="nav-item"><a class="nav-link" href="admin_view_gate_pass_history">Tracking</a></li>
+                    <li class="nav-item submenu dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Views</a>
+                        <ul class="dropdown-menu bg-dark border-0 shadow mt-2">
+                            <li><a class="dropdown-item text-white py-2" href="admin_view_students">Students</a></li>
+                            <li><a class="dropdown-item text-white py-2" href="admin_view_staff">Staff</a></li>
+                            <li><h6 class="dropdown-header text-muted mt-2">Hardware Setup</h6></li>
+                            <li><a class="dropdown-item text-white py-2 bg-primary" href="assign_nfc_tag"><i class="fa fa-wifi mr-2"></i>Assign NFC Tag</a></li>
+                            <li><a class="dropdown-item text-white py-2" href="view_nfc_tags"><i class="fa fa-list mr-2"></i>View NFC Tags</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item ml-lg-3">
+                        <a class="btn btn-premium btn-sm" href="logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!--================ Dashboard Body =================-->
+    <div class="container dashboard-container">
+        <div class="row mb-5 animate-fade-in">
+            <div class="col-12">
+                <h2 class="text-gradient display-4 font-weight-bold">Admin Overview</h2>
+                <p class="text-muted">Welcome back, Administrator. Here's what's happening today.</p>
+            </div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-md-3 animate-fade-in" style="animation-delay: 0.1s;">
+                <div class="stat-card">
+                    <i class="fa fa-users stat-icon"></i>
+                    <h5 class="text-muted mb-1">Total Students</h5>
+                    <h2 class="font-weight-bold mb-0">Active</h2>
+                </div>
+            </div>
+            <div class="col-md-3 animate-fade-in" style="animation-delay: 0.2s;">
+                <div class="stat-card">
+                    <i class="fa fa-clock-o stat-icon"></i>
+                    <h5 class="text-muted mb-1">Pending Passes</h5>
+                    <h2 class="font-weight-bold mb-0">Review</h2>
+                </div>
+            </div>
+            <div class="col-md-3 animate-fade-in" style="animation-delay: 0.3s;">
+                <div class="stat-card">
+                    <i class="fa fa-map-marker stat-icon"></i>
+                    <h5 class="text-muted mb-1">Off-Campus</h5>
+                    <h2 class="font-weight-bold mb-0">Current</h2>
+                </div>
+            </div>
+            <div class="col-md-3 animate-fade-in" style="animation-delay: 0.4s;">
+                <div class="stat-card">
+                    <i class="fa fa-shield stat-icon"></i>
+                    <h5 class="text-muted mb-1">Security Staff</h5>
+                    <h2 class="font-weight-bold mb-0">On Duty</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 mb-4">
+                <div class="glass-card">
+                    <h4 class="mb-4">System Alerts & Notifications</h4>
+                    <div class="alert alert-info bg-transparent border-primary text-white py-3">
+                        <i class="fa fa-info-circle mr-2 text-primary"></i> 5 new gate pass requests require your attention.
+                    </div>
+                    <div class="alert alert-warning bg-transparent border-warning text-white py-3">
+                        <i class="fa fa-warning mr-2 text-warning"></i> 2 students have exceeded their return time.
+                    </div>
+                    <div class="text-right mt-3">
+                        <a href="view_requests" class="btn btn-outline-light btn-sm px-4">View All Requests</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="glass-card">
+                    <h4 class="mb-4">Quick Actions</h4>
+                    <a href="student_register" class="quick-action-btn">
+                        <i class="fa fa-user-plus"></i> Register New Student
+                    </a>
+                    <a href="staff_register" class="quick-action-btn">
+                        <i class="fa fa-briefcase"></i> Register New Staff
+                    </a>
+                    <a href="search" class="quick-action-btn">
+                        <i class="fa fa-search"></i> Search User Records
+                    </a>
+                    <a href="admin_view_gate_pass_history" class="quick-action-btn mb-4">
+                        <i class="fa fa-road"></i> Live Movement Logs
+                    </a>
+                    <h5 class="text-white mt-3 mb-3 font-weight-bold">Hardware</h5>
+                    <a href="assign_nfc_tag" class="quick-action-btn border-primary text-primary" style="background: rgba(99, 102, 241, 0.1);">
+                        <i class="fa fa-wifi"></i> Assign NFC Tag
+                    </a>
+                    <a href="view_nfc_tags" class="quick-action-btn">
+                        <i class="fa fa-list"></i> View NFC Tags
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    
+    <!-- Real-time Movement Alerts -->
+    <div id="movement-alert-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px;"></div>
+
+    <script>
+        let lastMovementId = localStorage.getItem('lastMovementId');
+        let isFirstCheck = lastMovementId === null;
+
+        function checkMovement() {
+            $.ajax({
+                url: '/get_latest_movement',
+                method: 'GET',
+                success: function(data) {
+                    if (data.id) {
+                        if (isFirstCheck) {
+                            lastMovementId = data.id;
+                            localStorage.setItem('lastMovementId', lastMovementId);
+                            isFirstCheck = false;
+                            return;
+                        }
+                        
+                        if (data.id > lastMovementId) {
+                            lastMovementId = data.id;
+                            localStorage.setItem('lastMovementId', lastMovementId);
+                            showMovementToast(data.name, data.status);
+                        }
+                    }
+                }
+            });
+        }
+
+        function showMovementToast(name, status) {
+            const id = 'toast-' + Date.now();
+            const color = status === 'OUT' ? 'danger' : 'success';
+            const icon = status === 'OUT' ? 'fa-sign-out' : 'fa-sign-in';
+            
+            const toastHtml = `
+                <div id="${id}" class="alert alert-${color} animate-fade-in shadow-lg" style="border-left: 5px solid; border-radius: 12px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); color: white; margin-bottom: 10px;">
+                    <div class="d-flex align-items-center">
+                        <div class="mr-3" style="font-size: 1.5rem;">
+                            <i class="fa ${icon}"></i>
+                        </div>
+                        <div>
+                            <strong class="d-block">${name}</strong>
+                            <span class="small font-weight-bold">Marked as ${status}</span>
+                        </div>
+                        <button type="button" class="ml-auto close text-white" onclick="$('#${id}').fadeOut()">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            $('#movement-alert-container').append(toastHtml);
+            
+            // Auto hide after 10 seconds
+            setTimeout(() => {
+                $('#' + id).fadeOut(() => $('#' + id).remove());
+            }, 10000);
+        }
+
+        // Start polling
+        setInterval(checkMovement, 5000); // Check every 5 seconds
+        checkMovement(); // Initial check
+    </script>
+</body>
+</html>

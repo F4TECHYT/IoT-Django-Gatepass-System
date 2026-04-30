@@ -1,0 +1,162 @@
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/png">
+    <title>Student Dashboard - Gatepass</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="{% static 'css/custom_style.css' %}">
+
+    <style>
+        .dashboard-container {
+            padding-top: 100px;
+            padding-bottom: 50px;
+        }
+        .user-profile-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+        }
+        .user-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            margin-bottom: 15px;
+            object-fit: cover;
+        }
+        .nav-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 25px;
+            height: 100%;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .nav-card:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateY(-5px);
+            text-decoration: none;
+        }
+        .nav-card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        .nav-card h4 {
+            color: white;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <!--================ Header =================-->
+    <header class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/student_home">
+                <img src="{% static 'img/logo.png' %}" alt="Logo" class="mr-2">
+                <span class="font-weight-bold h4 mb-0 text-white">STUDENT PORTAL</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto align-items-center">
+                    <li class="nav-item active"><a class="nav-link" href="student_home">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="send_request">New Gate Pass</a></li>
+                    <li class="nav-item"><a class="nav-link" href="view_approved_gate_pass">My History</a></li>
+                    <li class="nav-item"><a class="nav-link" href="view_profile">Profile</a></li>
+                    <li class="nav-item ml-lg-3">
+                        <a class="btn btn-premium btn-sm" href="logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!--================ Dashboard Body =================-->
+    <div class="container dashboard-container">
+        <div class="row mb-5 animate-fade-in">
+            <div class="col-md-8">
+                <h2 class="text-gradient display-4 font-weight-bold">Welcome, Student</h2>
+                <p class="text-muted">Manage your campus leave requests and track your status.</p>
+            </div>
+            <div class="col-md-4 text-md-right align-self-end">
+                <a href="send_request" class="btn btn-premium px-4 py-2">
+                    <i class="fa fa-plus mr-2"></i> Request Gate Pass
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-4 animate-fade-in" style="animation-delay: 0.1s;">
+                <a href="send_request" class="nav-card">
+                    <i class="fa fa-paper-plane"></i>
+                    <h4>Apply Pass</h4>
+                    <p class="text-muted small">Submit a new request for leave</p>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 animate-fade-in" style="animation-delay: 0.2s;">
+                <a href="view_approved_gate_pass" class="nav-card">
+                    <i class="fa fa-list-alt"></i>
+                    <h4>Pass Status</h4>
+                    <p class="text-muted small">Check approval or rejection</p>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 animate-fade-in" style="animation-delay: 0.3s;">
+                <a href="view_profile" class="nav-card">
+                    <i class="fa fa-user"></i>
+                    <h4>My Profile</h4>
+                    <p class="text-muted small">Update your personal details</p>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 animate-fade-in" style="animation-delay: 0.4s;">
+                <div class="nav-card">
+                    <i class="fa fa-bell"></i>
+                    <h4>In/Out Status</h4>
+                    <p class="text-success font-weight-bold">ON CAMPUS</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12 animate-fade-in" style="animation-delay: 0.5s;">
+                <div class="glass-card">
+                    <h4>Recent Activity</h4>
+                    <hr style="border-color: rgba(255,255,255,0.05);">
+                    <div class="d-flex align-items-center py-2">
+                        <div class="mr-3"><i class="fa fa-info-circle text-primary"></i></div>
+                        <div>
+                            <p class="mb-0 text-white">Your last gate pass request was approved.</p>
+                            <small class="text-muted">2 days ago</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>
